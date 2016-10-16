@@ -1,12 +1,10 @@
 package artzok.myapplication;
 
-import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AutoViewPager auto_view_pager = (AutoViewPager) findViewById(R.id.auto_view_pager);
-//        auto_view_pager.start();
+        AutoViewPager autoViewPager = (AutoViewPager) findViewById(R.id.auto_view_pager);
+        //  autoViewPager.start();
 
-        auto_view_pager.setPagerAdapter(new PagerAdapter() {
+        autoViewPager.setPagerAdapter(new PagerAdapter() {
             @Override
             public int getCount() {
                 return 10;
@@ -48,15 +46,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        auto_view_pager.setOnTouchListener(new View.OnTouchListener() {
+        autoViewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Log.d("tag", "Event:"+event.getAction());
+                Log.d("tag", "Event:" + event.getAction());
                 return false;
             }
         });
 
-        auto_view_pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        autoViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 Log.d("tag", "onPageScrolled");

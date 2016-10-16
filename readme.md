@@ -7,20 +7,20 @@
 # 用法
 ---
 1. 编译library库，然后将`library-release.aar`文件复制到lib文件夹，接着在模块的`build.gradle`下添加：
-    ```
-    compile(name: 'library-release', ext: 'aar')
-    ```
-    在项目的`build.gradle`下添加：
-    ```
-    allprojects {
-        repositories {
-            jcenter()
-            flatDir {
-                dirs 'libs'
-            }
+```
+compile(name: 'library-release', ext: 'aar')
+```
+在项目的`build.gradle`下添加：
+```
+allprojects {
+    repositories {
+        jcenter()
+        flatDir {
+            dirs 'libs'
         }
     }
-    ```
+}
+```
 2. 新建一个`Activity`，在布局中添加`AutoViewPager`：
     ```xml
     <com.art.zok.autoview.AutoViewPager
