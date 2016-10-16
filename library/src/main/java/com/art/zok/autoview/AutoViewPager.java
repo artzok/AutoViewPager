@@ -194,7 +194,7 @@ public class AutoViewPager extends FrameLayout implements
                     handleUserEvent(v, event);
                     return true;
                 case MotionEvent.ACTION_UP:
-                    start();
+                    play();
             }
         }
         return handleUserEvent(v, event);
