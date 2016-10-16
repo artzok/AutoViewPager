@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AutoViewPager">
+        <attr name="selectedDrawable" format="reference"/>
+        <attr name="unselectedDrawable" format="reference"/>
+        <attr name="intervalTime" format="integer"/>
+        <attr name="indicatorWidth" format="dimension"/>
+        <attr name="indicatorHeight" format="dimension"/>
+        <attr name="indicatorPadding" format="dimension"/>
+    </declare-styleable>
+</resources>
