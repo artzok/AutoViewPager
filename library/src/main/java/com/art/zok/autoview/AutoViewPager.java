@@ -2,6 +2,7 @@ package com.art.zok.autoview;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.database.DataSetObserver;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -52,6 +53,7 @@ public class AutoViewPager extends FrameLayout implements
     private int mIndicatorPadding;
     private int mSelectedDrawableRes;
     private int mUnselectedDrawableRes;
+    private RawPageAdapter mRawAdapter;
 
     public AutoViewPager(Context context) {
         this(context, null);
@@ -107,10 +109,14 @@ public class AutoViewPager extends FrameLayout implements
     public void setPagerAdapter(PagerAdapter adapter) {
         if (adapter == null)
             throw new RuntimeException("The adapter cannot be null.");
+        if (mPagerAdapter != null)
+            throw new RuntimeException("Adapter has already exist!");
         // user adapter
         mPagerAdapter = adapter;
+        mPagerAdapter.registerDataSetObserver(new DataObserver());
         // raw adapter for raw ViewPager
-        mRawViewPager.setAdapter(new RawPageAdapter());
+        mRawAdapter = new RawPageAdapter();
+        mRawViewPager.setAdapter(mRawAdapter);
         // init indicator
         updateIndicator(0, false);
         // init first page
@@ -169,6 +175,7 @@ public class AutoViewPager extends FrameLayout implements
     }
 
     private void play() {
+        if (!mIsStart) return;
         mIsPlaying = true;
         mHandler.sendMessageDelayed(obtainMsg(), mIntervalTime);
     }
@@ -181,6 +188,7 @@ public class AutoViewPager extends FrameLayout implements
     }
 
     private void stop() {
+        if (!mIsStart) return;
         mHandler.removeMessages(0);
         mIsPlaying = false;
     }
@@ -278,6 +286,17 @@ public class AutoViewPager extends FrameLayout implements
         public void destroyItem(ViewGroup container, int position, Object object) {
             position %= mPagerAdapter.getCount();
             mPagerAdapter.destroyItem(container, position, object);
+        }
+    }
+
+    private class DataObserver extends DataSetObserver {
+        @Override
+        public void onChanged() {
+            stop();
+            updateIndicator(0, false);
+            initSelectedItem();
+            mRawAdapter.notifyDataSetChanged();
+            start();
         }
     }
 }
