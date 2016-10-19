@@ -43,7 +43,9 @@
     * `intervalTime`：自动播放时，页面之间的间隔时间，默认为2000毫秒。
     * `selectedDrawable`：选中的指示器的Drawable，默认为白填充效果。
     * `unselectedDrawable`：未选中的指示器的Drawable，默认为灰色填充效果。
-
+    * `showPageTitle`：是否显示标题，默认为显示，需要重载适配器的`getPageTitle`方法，并且不能返回null。
+    * `pageTitleFontSize`：标题尺寸，默认为16sp。
+    * `pageTitleFontColor`：标题颜色，默认为白色。
 3. 在`Activity`设置适配器：
     ```java
       public class MainActivity extends AppCompatActivity {
@@ -110,3 +112,8 @@
 2. 开启自动轮播效果：
 
   ![](arts/auto.gif)
+
+# FIX
+---
+1. 实现`notifyDataSetChanged`数据动态变换
+2. 添加标题显示功能

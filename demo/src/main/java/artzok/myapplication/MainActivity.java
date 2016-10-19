@@ -45,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
             public void destroyItem(ViewGroup container, int position, Object object) {
                 container.removeView((View) object);
             }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return "Page Title " + position;
+            }
         };
 
         autoViewPager.setPagerAdapter(mAdapter);
@@ -52,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mCount= 20;
+                mCount = 20;
                 mAdapter.notifyDataSetChanged();
             }
         }, 3000);

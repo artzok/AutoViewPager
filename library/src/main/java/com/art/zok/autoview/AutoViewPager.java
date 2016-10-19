@@ -3,11 +3,14 @@ package com.art.zok.autoview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -17,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
 
@@ -31,12 +35,15 @@ public class AutoViewPager extends FrameLayout implements
     // raw viewpager
     private ViewPager mRawViewPager;
     private LinearLayout mIndicatorContainer;
+    private TextView mPageTitle;
 
     private OnTouchListener mTouchListener;
     private OnPageChangeListener mOnPageChangeListener;
 
     //The adapter should be used to set up.
     private PagerAdapter mPagerAdapter;
+    // The raw adapter
+    private RawPageAdapter mRawAdapter;
 
     // The Handler is used for automatic cycle.
     private Handler mHandler;
@@ -51,9 +58,11 @@ public class AutoViewPager extends FrameLayout implements
     private int mIndicatorWidth;
     private int mIndicatorHeight;
     private int mIndicatorPadding;
+    private boolean mShowPageTitle;
     private int mSelectedDrawableRes;
     private int mUnselectedDrawableRes;
-    private RawPageAdapter mRawAdapter;
+    private float mPageTitleFontSize;
+    private int mPageTitleFontColor;
 
     public AutoViewPager(Context context) {
         this(context, null);
@@ -73,8 +82,10 @@ public class AutoViewPager extends FrameLayout implements
 
     private void initAttrs(Context context, AttributeSet attrs) {
         // default indicator size
-        float size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, context.getResources().getDisplayMetrics());
-
+        DisplayMetrics dm = context.getResources().getDisplayMetrics();
+        float size = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, dm);
+        // default title font size
+        float fontSize = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 16, dm);
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.AutoViewPager);
         mSelectedDrawableRes = array.getResourceId(R.styleable.AutoViewPager_selectedDrawable, R.drawable.default_selected_shape);
         mUnselectedDrawableRes = array.getResourceId(R.styleable.AutoViewPager_unselectedDrawable, R.drawable.default_unselected_shape);
@@ -83,12 +94,19 @@ public class AutoViewPager extends FrameLayout implements
         mIndicatorHeight = (int) array.getDimension(R.styleable.AutoViewPager_indicatorHeight, size);
         // default padding is equal to half the indicator size
         mIndicatorPadding = (int) array.getDimension(R.styleable.AutoViewPager_indicatorPadding, mIndicatorWidth / 2);
+        mShowPageTitle = array.getBoolean(R.styleable.AutoViewPager_showPageTitle, true);
+        mPageTitleFontSize = array.getDimension(R.styleable.AutoViewPager_pageTitleFontSize, fontSize);
+        mPageTitleFontColor = array.getColor(R.styleable.AutoViewPager_pageTitleFontColor, Color.WHITE);
+        array.recycle();
     }
 
     private void initView(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.auto_view_pager_layout, this, true);
         mRawViewPager = (ViewPager) view.findViewById(R.id.raw_view_pager);
         mIndicatorContainer = (LinearLayout) view.findViewById(R.id.indicator_container);
+        mPageTitle = (TextView) view.findViewById(R.id.page_title);
+        mPageTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, mPageTitleFontSize);
+        mPageTitle.setTextColor(mPageTitleFontColor);
     }
 
     private void initState() {
@@ -214,10 +232,22 @@ public class AutoViewPager extends FrameLayout implements
 
     @Override
     public void onPageSelected(int position) {
+        // update indicator and last position
         updateIndicator(position, lastPosition < position);
+        lastPosition = position;
+
+        // update page title
+        if (mShowPageTitle) {
+            int index = swap(position, mPagerAdapter.getCount());
+            CharSequence title = mPagerAdapter.getPageTitle(index);
+            if(TextUtils.isEmpty(title))
+                throw new RuntimeException("Must be overloaded " +
+                        "getPageTitle(int) method and can't return null.");
+            mPageTitle.setText(title);
+        }
+        // handle user event listener
         if (mOnPageChangeListener != null)
             mOnPageChangeListener.onPageSelected(position);
-        lastPosition = position;
     }
 
     public int getIntervalTime() {
@@ -295,6 +325,7 @@ public class AutoViewPager extends FrameLayout implements
             stop();
             updateIndicator(0, false);
             initSelectedItem();
+            // May not need
             mRawAdapter.notifyDataSetChanged();
             start();
         }
