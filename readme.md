@@ -6,7 +6,7 @@ This project is a simple custom View that can automatically cycle play Image or 
 
 # usage
 ---
-1.Compile the `library` module, then copy the `library-release.aar` file to the lib folder. In module `build.gradle` file add：
+### Compile the `library` module, then copy the `library-release.aar` file to the lib folder. In module `build.gradle` file add：
 
   ```
   compile(name: 'library-release', ext: 'aar')
@@ -23,7 +23,7 @@ This project is a simple custom View that can automatically cycle play Image or 
   }
   ```
   
-2. New a `Activity` instance，and add `AutoViewPager` in layout file：
+### New a `Activity` instance，and add `AutoViewPager` in layout file：
     ```xml
     <com.art.zok.autoview.AutoViewPager
         android:id="@+id/auto_view_pager"
@@ -48,7 +48,7 @@ This project is a simple custom View that can automatically cycle play Image or 
     * `pageTitleFontColor`: Title font color, default is white.
     * `pageTitleTextStyle`: Title text style, Optional values include: `normal`, `bold`, `italic`, `bold_italic`，default is `normal`.
 
-3. Set adapter for `AutoViewPager` in `Activity`:
+### Set adapter for `AutoViewPager` in `Activity`:
     ```java
       public class MainActivity extends AppCompatActivity {
           @Override
