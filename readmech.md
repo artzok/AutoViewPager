@@ -1,17 +1,17 @@
-# Introduction
+# 简介
 ---
-This project is a simple custom View that can automatically cycle play Image or View, use the ViewPager & Handler implementation, the basic features include:
- 1. Infinite cycle switch
- 2. automatically cycle play
+本项目是一个简单的轮播图实现库，采用ViewPager+Handler实现，基本功能包括：
+ 1. 无限循环切换界面
+ 2. 自动无限循环切换
 
-# usage
+# 用法
 ---
-1.Compile the `library` module, then copy the `library-release.aar` file to the lib folder. In module `build.gradle` file add：
+1. 编译library库，然后将`library-release.aar`文件复制到lib文件夹，接着在模块的`build.gradle`下添加：
 
   ```
   compile(name: 'library-release', ext: 'aar')
   ```
-  In project `build.gradle` file add：
+  在项目的`build.gradle`下添加：
   ```
   allprojects {
       repositories {
@@ -23,7 +23,7 @@ This project is a simple custom View that can automatically cycle play Image or 
   }
   ```
   
-2. New a `Activity` instance，and add `AutoViewPager` in layout file：
+2. 新建一个`Activity`，在布局中添加`AutoViewPager`：
     ```xml
     <com.art.zok.autoview.AutoViewPager
         android:id="@+id/auto_view_pager"
@@ -36,19 +36,19 @@ This project is a simple custom View that can automatically cycle play Image or 
         app:selectedDrawable="@mipmap/indicator_normal"
         app:unselectedDrawable="@mipmap/indicator_selected"/>
     ```
-    This project provides the following several kinds of custom properties:
-    * `indicatorWidth`: Indicator width, default 8dp.
-    * `indicatorHeight`: Indicator height, default 8dp.
-    * `indicatorPadding`: The spacing between indicator default value is equal to half the width of indicator.
-    * `intervalTime`: Automatically cycle play time interval default 2000ms.
-    * `selectedDrawable`: The Drawable resource of current selected indicator, default is white color fill effect.
-    * `unselectedDrawable`: The Drawable resource of all unselected indicator, default is gray color fill effect.
-    * `showPageTitle`: Show the title or not, default is show, need override `getPageTitle` method of adapter and can't return null.
-    * `pageTitleFontSize`: Title font size, default 16sp.
-    * `pageTitleFontColor`: Title font color, default is white.
-    * `pageTitleTextStyle`: Title text style, Optional values include: `normal`, `bold`, `italic`, `bold_italic`，default is `normal`.
+    本库为用户提供六个自定义属性，分别是：
+    * `indicatorWidth`：指示器宽度，默认为8dp。
+    * `indicatorHeight`：指示器高度，默认为8dp。
+    * `indicatorPadding`：指示器之间的间距，默认为指示器宽度的一半。
+    * `intervalTime`：自动播放时，页面之间的间隔时间，默认为2000毫秒。
+    * `selectedDrawable`：选中的指示器的Drawable，默认为白填充效果。
+    * `unselectedDrawable`：未选中的指示器的Drawable，默认为灰色填充效果。
+    * `showPageTitle`：是否显示标题，默认为显示，需要重载适配器的`getPageTitle`方法，并且不能返回null。
+    * `pageTitleFontSize`：标题尺寸，默认为16sp。
+    * `pageTitleFontColor`：标题颜色，默认为白色。
+    * `pageTitleTextStyle`：标题字体风格，可选值包括normal、bold、italic、bold_italic，默认为normal。
 
-3. Set adapter for `AutoViewPager` in `Activity`:
+3. 在`Activity`设置适配器：
     ```java
       public class MainActivity extends AppCompatActivity {
           @Override
@@ -83,13 +83,11 @@ This project is a simple custom View that can automatically cycle play Image or 
           }
       }
     ```
-
-    You can see this is no difference with original `ViewPager` in usage. Now, You have been implemented an infinite cycle switch, if you want to start automatically play, just call the following method:
+    可以看到和原始的`ViewPager`使用上没有任何区别。到现在就已经实现无限循环切换，如果希望启动自动轮播，可以随时调用下面方法开始：
     ```java
     autoViewPager.start();
     ```
-
-    You can also set touch events listener and page switching event listener for `autoViewPager`, just like the original `ViewPager`:
+    `autoViewPager`也可以像原始的`ViewPager`那样设置触摸事件监听和页面切换事件监听：
     ```java
      autoViewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -107,19 +105,19 @@ This project is a simple custom View that can automatically cycle play Image or 
             ...
         });
     ```
-# Show
+# 效果
 ----
-1. Just infinite loop:
+1. 不开启自动轮播效果：
 
   ![](arts/static.gif)
 
-2. Start infinite cycle play:
+2. 开启自动轮播效果：
 
   ![](arts/auto.gif)
 
 # NEW & FIX
 ---
-1. add `notifyDataSetChanged` implement
-2. add title
-3. fix bug: Can't update UI when data set changed
-4. add title text style control
+1. 实现`notifyDataSetChanged`数据动态变换
+2. 添加标题显示功能
+3. 修复数据变换时无法刷新视图
+4. 新增标题字体风格控制
