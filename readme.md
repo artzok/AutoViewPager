@@ -4,7 +4,7 @@ This project is a simple custom View that can automatically cycle play Image or 
  1. Infinite cycle switch
  2. automatically cycle play
 
-# usage
+# Usage
 ---
 1. Compile the `library` module, then copy the `library-release.aar` file to the lib folder. In module `build.gradle` file add：
     ```
