@@ -15,7 +15,8 @@
         app:intervalTime="2000"
         app:showPageTitle="true"
         app:pageTitleFontColor="@color/colorAccent"
-        app:pageTitleFontSize="18sp"
+        app:pageTitleFontSize="28sp"
+        app:pageTitleTextStyle="normal"
         app:selectedDrawable="@mipmap/indicator_normal"
         app:unselectedDrawable="@mipmap/indicator_selected"/>
 </RelativeLayout>

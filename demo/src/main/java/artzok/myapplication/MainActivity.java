@@ -11,8 +11,7 @@ import android.widget.TextView;
 import com.art.zok.autoview.AutoViewPager;
 
 public class MainActivity extends AppCompatActivity {
-
-    private int mCount = 10;
+    private String[] data = {"one", "two", "three", "four", "five"};
     private PagerAdapter mAdapter;
 
     @Override
@@ -25,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new PagerAdapter() {
             @Override
             public int getCount() {
-                return mCount;
+                return data.length;
             }
 
             @Override
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Object instantiateItem(ViewGroup container, int position) {
                 TextView view = (TextView) getLayoutInflater().inflate(R.layout.pager_item, container, false);
-                view.setText("Pager " + position);
+                view.setText(data[position] + " Page");
                 container.addView(view);
                 return view;
             }
@@ -57,7 +56,9 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mCount = 20;
+                for (int i = 0; i < data.length; i++) {
+                    data[i] = "# " + i;
+                }
                 mAdapter.notifyDataSetChanged();
             }
         }, 3000);

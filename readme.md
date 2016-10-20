@@ -46,6 +46,8 @@
     * `showPageTitle`：是否显示标题，默认为显示，需要重载适配器的`getPageTitle`方法，并且不能返回null。
     * `pageTitleFontSize`：标题尺寸，默认为16sp。
     * `pageTitleFontColor`：标题颜色，默认为白色。
+    * `pageTitleTextStyle`：标题字体风格，可选值包括normal、bold、italic、bold_italic，默认为normal。
+
 3. 在`Activity`设置适配器：
     ```java
       public class MainActivity extends AppCompatActivity {
@@ -113,7 +115,9 @@
 
   ![](arts/auto.gif)
 
-# FIX
+# NEW & FIX
 ---
 1. 实现`notifyDataSetChanged`数据动态变换
 2. 添加标题显示功能
+3. 修复数据变换时无法刷新视图
+4. 新增标题字体风格控制

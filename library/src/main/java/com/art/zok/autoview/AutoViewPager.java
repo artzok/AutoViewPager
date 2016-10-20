@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -63,6 +65,7 @@ public class AutoViewPager extends FrameLayout implements
     private int mUnselectedDrawableRes;
     private float mPageTitleFontSize;
     private int mPageTitleFontColor;
+    private int mPageTitleTextStyle;
 
     public AutoViewPager(Context context) {
         this(context, null);
@@ -97,6 +100,7 @@ public class AutoViewPager extends FrameLayout implements
         mShowPageTitle = array.getBoolean(R.styleable.AutoViewPager_showPageTitle, true);
         mPageTitleFontSize = array.getDimension(R.styleable.AutoViewPager_pageTitleFontSize, fontSize);
         mPageTitleFontColor = array.getColor(R.styleable.AutoViewPager_pageTitleFontColor, Color.WHITE);
+        mPageTitleTextStyle = array.getInt(R.styleable.AutoViewPager_pageTitleTextStyle, 0);
         array.recycle();
     }
 
@@ -107,6 +111,9 @@ public class AutoViewPager extends FrameLayout implements
         mPageTitle = (TextView) view.findViewById(R.id.page_title);
         mPageTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, mPageTitleFontSize);
         mPageTitle.setTextColor(mPageTitleFontColor);
+        Typeface typeface = mPageTitle.getTypeface();
+        mPageTitle.setTypeface(typeface, mPageTitleTextStyle);
+
     }
 
     private void initState() {
@@ -240,7 +247,7 @@ public class AutoViewPager extends FrameLayout implements
         if (mShowPageTitle) {
             int index = swap(position, mPagerAdapter.getCount());
             CharSequence title = mPagerAdapter.getPageTitle(index);
-            if(TextUtils.isEmpty(title))
+            if (TextUtils.isEmpty(title))
                 throw new RuntimeException("Must be overloaded " +
                         "getPageTitle(int) method and can't return null.");
             mPageTitle.setText(title);
@@ -316,6 +323,11 @@ public class AutoViewPager extends FrameLayout implements
         public void destroyItem(ViewGroup container, int position, Object object) {
             position %= mPagerAdapter.getCount();
             mPagerAdapter.destroyItem(container, position, object);
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
         }
     }
 
