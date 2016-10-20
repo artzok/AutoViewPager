@@ -42,7 +42,7 @@ public class AutoViewPager extends FrameLayout implements
     private OnTouchListener mTouchListener;
     private OnPageChangeListener mOnPageChangeListener;
 
-    //The adapter should be used to set up.
+    //The adapter should be user to set up.
     private PagerAdapter mPagerAdapter;
     // The raw adapter
     private RawPageAdapter mRawAdapter;
@@ -187,14 +187,14 @@ public class AutoViewPager extends FrameLayout implements
     }
 
     /**
-     * Start auto circle play all view.
+     * Start auto circle play all views.
      */
     public void start() {
         mIsStart = true;
         play();
     }
 
-    // auto play msg
+    // get msg of auto play 
     private Message obtainMsg() {
         return Message.obtain(mHandler, 0);
     }
@@ -298,7 +298,7 @@ public class AutoViewPager extends FrameLayout implements
             if (handler == null)
                 return;
             handler.autoPlay();
-            Log.d("tag", "mHandler running");
+//             Log.d("tag", "mHandler running");
         }
     }
 
@@ -337,7 +337,6 @@ public class AutoViewPager extends FrameLayout implements
             stop();
             updateIndicator(0, false);
             initSelectedItem();
-            // May not need
             mRawAdapter.notifyDataSetChanged();
             start();
         }
