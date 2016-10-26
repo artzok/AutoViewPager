@@ -6,23 +6,28 @@ This project is a simple custom View that can automatically cycle play Image or 
 
 # Usage
 ---
-1. Compile the `library` module, then copy the `library-release.aar` file to the lib folder. In module `build.gradle` file add：
-    ```
-    compile(name: 'library-release', ext: 'aar')
-    ```
-    In project `build.gradle` file add：
+## Add the dependency
+
+1. Add it in your root build.gradle at the end of repositories:
     ```
     allprojects {
-      repositories {
-          jcenter()
-          flatDir {
-              dirs 'libs'
-          }
-      }
+        repositories {
+            ...
+            maven { url "https://jitpack.io" }
+        }
     }
     ```
-  
-2. New a `Activity` page, and add `AutoViewPager` view in layout file：
+
+2. Add the dependency：
+    ```
+	dependencies {
+	        compile 'com.github.artzok:AutoViewPager:v0.1.1'
+	}
+    ```
+
+## Simple Usage
+
+1. New a `Activity` page, and add `AutoViewPager` view in layout file：
     ```xml
     <com.art.zok.autoview.AutoViewPager
         android:id="@+id/auto_view_pager"
@@ -48,7 +53,8 @@ This project is a simple custom View that can automatically cycle play Image or 
     * `pageTitleTextStyle`: Title text style, Optional values include: `normal`, `bold`, `italic`, `bold_italic`，default is `normal`.
     * `indicatorContainerID`:You can set a LinearLayout container for indicator user this attribute.
     * `pageTitleTextViewID`: You can set a TextView use this attribute that use show Page Title.
-3. Set adapter for `AutoViewPager` in `Activity`:
+
+2. Set adapter for `AutoViewPager` in `Activity`:
     ```java
       public class MainActivity extends AppCompatActivity {
           @Override
@@ -84,7 +90,7 @@ This project is a simple custom View that can automatically cycle play Image or 
       }
     ```
 
-    You can see this is no difference with original `ViewPager` in usage. Now, You have been implemented an infinite cycle switch, if you want to start automatically play, just call the following method:
+3. You can see this is no difference with original `ViewPager` in usage. Now, You have been implemented an infinite cycle switch, if you want to start automatically play, just call the following method:
     ```java
     autoViewPager.start();
     ```
@@ -107,7 +113,7 @@ This project is a simple custom View that can automatically cycle play Image or 
             ...
         });
     ```
-    If you want custom position of indicator and page title, you can :
+4. If you want custom position of indicator and page title, you can :
     ```xml
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
