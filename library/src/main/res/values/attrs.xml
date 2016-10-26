@@ -7,6 +7,8 @@
         <attr name="indicatorWidth" format="dimension"/>
         <attr name="indicatorHeight" format="dimension"/>
         <attr name="indicatorPadding" format="dimension"/>
+        <attr name="indicatorContainerID" format="reference"/>
+        <attr name="pageTitleTextViewID" format="reference"/>
         <attr name="showPageTitle" format="boolean"/>
         <attr name="pageTitleFontSize" format="dimension"/>
         <attr name="pageTitleFontColor" format="color"/>

@@ -6,17 +6,38 @@
     android:layout_height="match_parent">
 
     <com.art.zok.autoview.AutoViewPager
+        android:background="@color/colorPrimary"
         android:id="@+id/auto_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:indicatorHeight="5dp"
-        app:indicatorPadding="2dp"
-        app:indicatorWidth="5dp"
+        android:layout_height="200dp"
+
+        app:indicatorHeight="10dp"
+        app:indicatorWidth="10dp"
+        app:indicatorPadding="10dp"
+
+        app:indicatorContainerID="@+id/indicators"
+        app:pageTitleTextViewID="@+id/title"
+
         app:intervalTime="2000"
-        app:showPageTitle="true"
-        app:pageTitleFontColor="@color/colorAccent"
-        app:pageTitleFontSize="28sp"
-        app:pageTitleTextStyle="normal"
-        app:selectedDrawable="@mipmap/indicator_normal"
-        app:unselectedDrawable="@mipmap/indicator_selected"/>
+        app:showPageTitle="true">
+
+        <TextView
+            android:id="@id/title"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"/>
+
+        <LinearLayout
+            android:id="@id/indicators"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"/>
+    </com.art.zok.autoview.AutoViewPager>
 </RelativeLayout>

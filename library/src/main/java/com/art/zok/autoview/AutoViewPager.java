@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
@@ -32,7 +33,7 @@ import static android.support.v4.view.ViewPager.OnPageChangeListener;
  * @author 赵坤(artzok)
  * @email artzok@163.com
  */
-public class AutoViewPager extends FrameLayout implements
+public class AutoViewPager extends RelativeLayout implements
         AutoPlayCallback, View.OnTouchListener, OnPageChangeListener {
     // raw viewpager
     private ViewPager mRawViewPager;
@@ -66,6 +67,8 @@ public class AutoViewPager extends FrameLayout implements
     private float mPageTitleFontSize;
     private int mPageTitleFontColor;
     private int mPageTitleTextStyle;
+    private int mIndicatorContainerId;
+    private int mPageTitleTextViewId;
 
     public AutoViewPager(Context context) {
         this(context, null);
@@ -97,22 +100,38 @@ public class AutoViewPager extends FrameLayout implements
         mIndicatorHeight = (int) array.getDimension(R.styleable.AutoViewPager_indicatorHeight, size);
         // default padding is equal to half the indicator size
         mIndicatorPadding = (int) array.getDimension(R.styleable.AutoViewPager_indicatorPadding, mIndicatorWidth / 2);
-        mShowPageTitle = array.getBoolean(R.styleable.AutoViewPager_showPageTitle, true);
+        mShowPageTitle = array.getBoolean(R.styleable.AutoViewPager_showPageTitle, false);
         mPageTitleFontSize = array.getDimension(R.styleable.AutoViewPager_pageTitleFontSize, fontSize);
         mPageTitleFontColor = array.getColor(R.styleable.AutoViewPager_pageTitleFontColor, Color.WHITE);
         mPageTitleTextStyle = array.getInt(R.styleable.AutoViewPager_pageTitleTextStyle, 0);
+        // custom indicator container and title view res id
+        mIndicatorContainerId = array.getResourceId(R.styleable.AutoViewPager_indicatorContainerID, -1);
+        mPageTitleTextViewId = array.getResourceId(R.styleable.AutoViewPager_pageTitleTextViewID, -1);
         array.recycle();
     }
 
     private void initView(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.auto_view_pager_layout, this, true);
         mRawViewPager = (ViewPager) view.findViewById(R.id.raw_view_pager);
-        mIndicatorContainer = (LinearLayout) view.findViewById(R.id.indicator_container);
-        mPageTitle = (TextView) view.findViewById(R.id.page_title);
+        mIndicatorContainer = (LinearLayout) findViewById(R.id.indicator_container);
+        mPageTitle = (TextView) findViewById(R.id.page_title);
         mPageTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, mPageTitleFontSize);
         mPageTitle.setTextColor(mPageTitleFontColor);
         Typeface typeface = mPageTitle.getTypeface();
         mPageTitle.setTypeface(typeface, mPageTitleTextStyle);
+    }
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        if (mIndicatorContainerId != -1) {
+            mIndicatorContainer.setVisibility(GONE);
+            mIndicatorContainer = (LinearLayout) findViewById(mIndicatorContainerId);
+        }
+        if (mPageTitleTextViewId != -1) {
+            mPageTitle.setVisibility(GONE);
+            mPageTitle = (TextView) findViewById(mPageTitleTextViewId);
+        }
     }
 
     private void initState() {
@@ -140,11 +159,7 @@ public class AutoViewPager extends FrameLayout implements
         mPagerAdapter.registerDataSetObserver(new DataObserver());
         // raw adapter for raw ViewPager
         mRawAdapter = new RawPageAdapter();
-        mRawViewPager.setAdapter(mRawAdapter);
-        // init indicator
-        updateIndicator(0, false);
-        // init first page
-        initSelectedItem();
+        mPagerAdapter.notifyDataSetChanged();
     }
 
     private void updateIndicator(int index, boolean isLeft) {
@@ -190,7 +205,8 @@ public class AutoViewPager extends FrameLayout implements
      */
     public void start() {
         mIsStart = true;
-        play();
+        if (mPagerAdapter != null && mPagerAdapter.getCount() > 0)
+            play();
     }
 
     // get msg of auto play 
@@ -248,7 +264,7 @@ public class AutoViewPager extends FrameLayout implements
             CharSequence title = mPagerAdapter.getPageTitle(index);
             if (TextUtils.isEmpty(title))
                 throw new RuntimeException("Must be overloaded " +
-                        "getPageTitle(int) method and can't return null.");
+                        "getPageTitle(int) method and can't return null or empty.");
             mPageTitle.setText(title);
         }
         // handle user event listener
@@ -333,11 +349,14 @@ public class AutoViewPager extends FrameLayout implements
     private class DataObserver extends DataSetObserver {
         @Override
         public void onChanged() {
+            if (mPagerAdapter.getCount() <= 0) return;
+            if (mRawViewPager.getAdapter() == null)
+                mRawViewPager.setAdapter(mRawAdapter);
             stop();
             updateIndicator(0, false);
             initSelectedItem();
             mRawAdapter.notifyDataSetChanged();
-            start();
+            play();
         }
     }
 }

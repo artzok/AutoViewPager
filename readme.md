@@ -42,11 +42,12 @@ This project is a simple custom View that can automatically cycle play Image or 
     * `intervalTime`:  Time interval of automatically cycle play, default 2000ms.
     * `selectedDrawable`: The Drawable resource of current selected indicator, default is white color fill effect.
     * `unselectedDrawable`: The Drawable resource of all unselected indicator, default is gray color fill effect.
-    * `showPageTitle`: Show the title or not, default show, need override `getPageTitle` method of adapter and can't return null.
+    * `showPageTitle`: Show the title or not, default is not showing, need override `getPageTitle` method of adapter and can't return null.
     * `pageTitleFontSize`: Title font size, default 16sp.
     * `pageTitleFontColor`: Title font color, default is white.
     * `pageTitleTextStyle`: Title text style, Optional values include: `normal`, `bold`, `italic`, `bold_italic`，default is `normal`.
-
+    * `indicatorContainerID`:You can set a LinearLayout container for indicator user this attribute.
+    * `pageTitleTextViewID`: You can set a TextView use this attribute that use show Page Title.
 3. Set adapter for `AutoViewPager` in `Activity`:
     ```java
       public class MainActivity extends AppCompatActivity {
@@ -106,6 +107,53 @@ This project is a simple custom View that can automatically cycle play Image or 
             ...
         });
     ```
+    If you want custom position of indicator and page title, you can :
+    ```xml
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.art.zok.autoview.AutoViewPager
+            android:background="@color/colorPrimary"
+            android:id="@+id/auto_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+
+            app:indicatorHeight="10dp"
+            app:indicatorWidth="10dp"
+            app:indicatorPadding="10dp"
+
+            app:indicatorContainerID="@+id/indicators"
+            app:pageTitleTextViewID="@+id/title"
+
+            app:intervalTime="2000"
+            app:showPageTitle="true">
+
+            <TextView
+                android:id="@id/title"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent"/>
+
+            <LinearLayout
+                android:id="@id/indicators"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal"/>
+        </com.art.zok.autoview.AutoViewPager>
+    </RelativeLayout>
+    ```
+    I changed super class of `AutoViewPager` to RelativeLayout, so you can add some other layout in AutoViewPager, also you
+    can define pos of page title or indicator by use `indicatorContainerID` and `pageTitleTextViewID` attributes.
 
 # Show
 ----
@@ -123,3 +171,4 @@ This project is a simple custom View that can automatically cycle play Image or 
 2. add title
 3. fix bug: Can't update UI when data set changed
 4. add title text style control
+5. fix bug: Crash when data set is empty
