@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         AutoViewPager autoViewPager = (AutoViewPager) findViewById(R.id.auto_view_pager);
         autoViewPager.start();
-
         mAdapter = new PagerAdapter() {
             @Override
             public int getCount() {

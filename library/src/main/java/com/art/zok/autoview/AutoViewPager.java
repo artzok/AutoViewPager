@@ -113,7 +113,6 @@ public class AutoViewPager extends FrameLayout implements
         mPageTitle.setTextColor(mPageTitleFontColor);
         Typeface typeface = mPageTitle.getTypeface();
         mPageTitle.setTypeface(typeface, mPageTitleTextStyle);
-
     }
 
     private void initState() {

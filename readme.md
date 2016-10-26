@@ -106,7 +106,7 @@ This project is a simple custom View that can automatically cycle play Image or 
             ...
         });
     ```
-    
+
 # Show
 ----
 1. Just infinite loop:
