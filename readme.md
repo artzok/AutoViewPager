@@ -4,7 +4,7 @@ This project is a simple custom View that can automatically cycle play Image or 
  1. Infinite cycle switch
  2. automatically cycle play
 
-# usage
+# Usage
 ---
 1. Compile the `library` module, then copy the `library-release.aar` file to the lib folder. In module `build.gradle` file add：
     ```
@@ -22,7 +22,7 @@ This project is a simple custom View that can automatically cycle play Image or 
     }
     ```
   
-2. New a `Activity` instance，and add `AutoViewPager` in layout file：
+2. New a `Activity` page, and add `AutoViewPager` view in layout file：
     ```xml
     <com.art.zok.autoview.AutoViewPager
         android:id="@+id/auto_view_pager"
@@ -38,11 +38,11 @@ This project is a simple custom View that can automatically cycle play Image or 
     This project provides the following several kinds of custom properties:
     * `indicatorWidth`: Indicator width, default 8dp.
     * `indicatorHeight`: Indicator height, default 8dp.
-    * `indicatorPadding`: The spacing between indicator default value is equal to half the width of indicator.
-    * `intervalTime`: Automatically cycle play time interval default 2000ms.
+    * `indicatorPadding`: The spacing between indicator, default value is equal to half the width of indicator.
+    * `intervalTime`:  Time interval of automatically cycle play, default 2000ms.
     * `selectedDrawable`: The Drawable resource of current selected indicator, default is white color fill effect.
     * `unselectedDrawable`: The Drawable resource of all unselected indicator, default is gray color fill effect.
-    * `showPageTitle`: Show the title or not, default is show, need override `getPageTitle` method of adapter and can't return null.
+    * `showPageTitle`: Show the title or not, default show, need override `getPageTitle` method of adapter and can't return null.
     * `pageTitleFontSize`: Title font size, default 16sp.
     * `pageTitleFontColor`: Title font color, default is white.
     * `pageTitleTextStyle`: Title text style, Optional values include: `normal`, `bold`, `italic`, `bold_italic`，default is `normal`.
@@ -88,7 +88,7 @@ This project is a simple custom View that can automatically cycle play Image or 
     autoViewPager.start();
     ```
 
-    You can also set touch events listener and page switching event listener for `autoViewPager`, just like the original `ViewPager`:
+    You can also set touch events listener and page switch event listener for `AutoViewPager`, just like the original `ViewPager`:
     ```java
      autoViewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -109,7 +109,7 @@ This project is a simple custom View that can automatically cycle play Image or 
 
 # Show
 ----
-1. Just infinite loop:
+1. Just infinite cycle switch:
 
   ![](arts/static.gif)
 
