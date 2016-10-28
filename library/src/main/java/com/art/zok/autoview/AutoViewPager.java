@@ -9,17 +9,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -214,7 +211,7 @@ public class AutoViewPager extends RelativeLayout implements
         return Message.obtain(mHandler, 0);
     }
 
-    private void play() {
+    public void play() {
         if (!mIsStart) return;
         mIsPlaying = true;
         mHandler.sendMessageDelayed(obtainMsg(), mIntervalTime);
@@ -222,12 +219,12 @@ public class AutoViewPager extends RelativeLayout implements
 
     @Override
     public void autoPlay() {
-        mRawViewPager.setCurrentItem(mRawViewPager.getCurrentItem() + 1);
+        mRawViewPager.setCurrentItem(mRawViewPager.getCurrentItem() + 1, true);
         if (mIsPlaying)
             mHandler.sendMessageDelayed(obtainMsg(), mIntervalTime);
     }
 
-    private void stop() {
+    public void pause() {
         if (!mIsStart) return;
         mHandler.removeMessages(0);
         mIsPlaying = false;
@@ -238,7 +235,7 @@ public class AutoViewPager extends RelativeLayout implements
         if (mIsStart) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    stop();
+                    pause();
                     handleUserEvent(v, event);
                     return true;
                 case MotionEvent.ACTION_UP:
@@ -352,7 +349,7 @@ public class AutoViewPager extends RelativeLayout implements
             if (mPagerAdapter.getCount() <= 0) return;
             if (mRawViewPager.getAdapter() == null)
                 mRawViewPager.setAdapter(mRawAdapter);
-            stop();
+            pause();
             updateIndicator(0, false);
             initSelectedItem();
             mRawAdapter.notifyDataSetChanged();
