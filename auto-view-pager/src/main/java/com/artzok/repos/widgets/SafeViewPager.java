@@ -35,8 +35,7 @@ public class SafeViewPager extends ViewPager {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         try {
-            if (forbidSlide) return false;
-            return super.onInterceptTouchEvent(ev);
+            return !forbidSlide && super.onInterceptTouchEvent(ev);
         } catch (IllegalArgumentException e) {
             return false;
         }
