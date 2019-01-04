@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--轮播图属性-->
+    <declare-styleable name="AutoViewPager">
+        <attr name="selectedDrawable" format="reference"/>
+        <attr name="unselectedDrawable" format="reference"/>
+        <attr name="intervalTime" format="integer"/>
+        <attr name="indicatorWidth" format="dimension"/>
+        <attr name="indicatorHeight" format="dimension"/>
+        <attr name="unselectedHorAsp" format="float"/>
+        <attr name="unselectedVerAsp" format="float"/>
+        <attr name="indicatorPadding" format="dimension"/>
+        <attr name="indicatorContainerID" format="reference"/>
+        <attr name="pageTitleTextViewID" format="reference"/>
+        <attr name="showPageTitle" format="boolean"/>
+        <attr name="pageTitleFontSize" format="dimension"/>
+        <attr name="pageTitleFontColor" format="color"/>
+        <attr name="enableShadow" format="boolean"/>
+        <attr name="pageTitleTextStyle" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="bold" value="1"/>
+            <enum name="italic" value="2"/>
+            <enum name="bold_italic" value="3"/>
+        </attr>
+    </declare-styleable>
+
+</resources>

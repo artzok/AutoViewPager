@@ -1,0 +1,95 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+
+android {
+    compileSdkVersion safeVersion('compileSdkVersion', 28)
+    defaultConfig {
+        minSdkVersion safeVersion('minSdkVersion', 19)
+        targetSdkVersion safeVersion('targetSdkVersion', 28)
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation "com.android.support:support-v4:${safeVersion("supportLibVersion", "28.0.0")}"
+}
+
+version = "0.0.1"
+group = "com.artzok.widgets"
+def siteUrl = "https://github.com/artzok/AutoViewPager"
+def gitUrl = "https://github.com/artzok/AutoViewPager.git"
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name 'autoViewPager'
+                url siteUrl
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'artzok'
+                        name 'mr.artzok'
+                        email 'mr.artzok@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+def safeVersion(prop, fallback) {
+    return rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintrayUser")
+    key = properties.getProperty("bintrayApiKey")
+    configurations = ['archives']
+    pkg {
+        repo = "artzok-artzok"
+        name = "autoViewPager"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
+
