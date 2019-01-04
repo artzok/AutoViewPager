@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.ziipin.baselibrary.widgets.SafeViewPager
+    <com.artzok.repos.widgets.SafeViewPager
         android:id="@+id/raw_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
@@ -28,7 +28,7 @@
         android:layout_marginRight="20dp"
         android:orientation="horizontal"/>
 
-    <com.ziipin.softcenter.widgets.CustomTextView
+    <TextView
         android:id="@+id/page_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
